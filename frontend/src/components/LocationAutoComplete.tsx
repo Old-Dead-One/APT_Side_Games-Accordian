@@ -7,8 +7,8 @@ const LocationAutoComplete = () => {
             disablePortal
             id="location"
             options={location}
-            sx={{ width: 500 }}
-            renderInput={(params) => <TextField {...params} label="Enter a Location" />}
+            sx={{ minWidth: '320px auto' }}
+            renderInput={(params) => <TextField {...params} label="Find a Location" />}
         />
     );
 }

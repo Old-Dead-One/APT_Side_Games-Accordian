@@ -1,13 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
-import { useTheme } from './MuiThemeContext';
+import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 const BottomNavBar = () => {
-    const { darkMode, toggleDarkMode } = useTheme();
 
     return (
         <Paper
@@ -19,21 +17,29 @@ const BottomNavBar = () => {
                 right: 0,
                 display: 'flex',
                 justifyContent: 'center',
-                width: '100%',
+                width: 'auto',
             }}
         >
             <BottomNavigation
                 sx={{
                     width: '100%',
                     backgroundColor: '#0f5298',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    padding: 0,
+                    '& .MuiBottomNavigationAction-root': {
+                        minWidth: 0,
+                        padding: '0',
+                        margin: '0',
+                    },
                 }}
             >
                 <BottomNavigationAction
                     showLabel
-                    label={darkMode ? 'Light' : 'Dark'}
-                    icon={<DarkModeIcon sx={{ color: darkMode ? '#dcddde' : '#dcddde' }} />}
-                    onClick={toggleDarkMode}
+                    label="Home"
+                    icon={<HomeIcon />}
                     sx={{ color: '#dcddde', margin: '0 auto' }}
+                    component={NavLink} to="/"
                 />
                 <BottomNavigationAction
                     showLabel

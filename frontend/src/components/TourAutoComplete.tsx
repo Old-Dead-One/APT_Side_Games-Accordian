@@ -7,8 +7,8 @@ const TourAutoComplete = () => {
             disablePortal
             id="tour"
             options={tour}
-            sx={{ width: 500 }}
-            renderInput={(params) => <TextField {...params} label="Enter a Tour" />}
+            sx={{ minWidth: '320px auto' }}
+            renderInput={(params) => <TextField {...params} label="Find a Tour" />}
         />
     );
 }

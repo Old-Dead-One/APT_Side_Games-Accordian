@@ -1,38 +1,83 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LoginIcon from '@mui/icons-material/Login';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Button } from '@mui/material';
+import { useTheme } from './MuiThemeContext';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 const TopNavBar = () => {
+    const { darkMode, toggleDarkMode } = useTheme();
     const location = useLocation();
 
     const getTopNavContent = () => {
         switch (location.pathname) {
-            case '/home':
-                return <Typography variant="h6">APT SIDE GAMES</Typography>;
+            case '/':
+                return <Typography variant="subtitle1">Home</Typography>;
             case '/profile':
-                return <Typography variant="h6">Profile</Typography>;
+                return <Typography variant="subtitle1">Profile</Typography>;
             case '/login':
-                return <Typography variant="h6">Login</Typography>;
+                return <Typography variant="subtitle1">Login</Typography>;
             case '/cart':
-                return <Typography variant="h6">Cart</Typography>;
+                return <Typography variant="subtitle1">Cart</Typography>;
             default:
-                return <Typography variant="h6">APT SIDE GAMES</Typography>;
+                return <Typography variant="subtitle1">Home</Typography>;
         }
     };
 
     return (
-        <AppBar position="static" sx={{ width: '100%', mb: 2, backgroundColor: '#0f5298' }}>
+        <AppBar position="static" sx={{ width: 'auto', mb: 2, backgroundColor: '#0f5298' }}>
             <Toolbar>
                 <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-                    <IconButton edge="start" color="inherit">
-                        {location.pathname === '/' && <HomeIcon />}
-                        {location.pathname === '/profile' && <AccountCircleIcon />}
-                        {location.pathname === '/login' && <LoginIcon />}
-                        {location.pathname === '/cart' && <ShoppingCartIcon />}
-                    </IconButton>
+                    <NavLink to="/" style={{ color: "inherit", textDecoration: "none" }}>
+                        <Button
+                            size='large'
+                            color='inherit'
+                            startIcon={
+                                <img
+                                    src="/APTBlackCircle.png"
+                                    alt="APT Logo"
+                                    style={{ width: 30, height: 30 }}
+                                />
+                            }
+                        >
+                            APT SIDE GAMES
+                        </Button>
+                    </NavLink>
+
+                    <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={toggleDarkMode}
+                            sx={{
+                                marginLeft: 1,
+                                color: '#dcddde',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                        >
+                            {darkMode ? (
+                                <LightModeIcon sx={{ color: '#dcddde' }} />
+                            ) : (
+                                <DarkModeIcon sx={{ color: '#dcddde' }} />
+                            )}
+                            <Typography variant="subtitle2">
+                                {darkMode ? 'Light Mode' : 'Dark Mode'}
+                            </Typography>
+                        </IconButton>
+                    </Box>
+
+                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                        <IconButton edge="end" color="inherit">
+                            {location.pathname === '/'}
+                            {location.pathname === '/profile'}
+                            {location.pathname === '/login'}
+                            {location.pathname === '/cart'}
+                        </IconButton>
+                    </Box>
+
                     {getTopNavContent()}
                 </Box>
             </Toolbar>

@@ -7,8 +7,8 @@ const EventAutoComplete = () => {
             disablePortal
             id="event"
             options={events}
-            sx={{ width: 500 }}
-            renderInput={(params) => <TextField {...params} label="Enter an Event" />}
+            sx={{ minWidth: '320px auto' }}
+            renderInput={(params) => <TextField {...params} label="Find an Event" />}
         />
     );
 }
