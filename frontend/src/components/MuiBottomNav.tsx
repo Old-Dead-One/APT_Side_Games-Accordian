@@ -38,28 +38,28 @@ const BottomNavBar = () => {
                     showLabel
                     label="Home"
                     icon={<HomeIcon />}
-                    sx={{ color: '#dcddde', margin: '0 auto' }}
+                    sx={{ color: '#dcddde', margin: '0 auto', maxWidth: '80px' }}
                     component={NavLink} to="/"
                 />
                 <BottomNavigationAction
                     showLabel
                     label="Profile"
                     icon={<AccountCircleIcon />}
-                    sx={{ color: '#dcddde', margin: '0 auto' }}
+                    sx={{ color: '#dcddde', margin: '0 auto', maxWidth: '80px' }}
                     component={NavLink} to="/profile"
                 />
                 <BottomNavigationAction
                     showLabel
                     label="Login"
                     icon={<LoginIcon />}
-                    sx={{ color: '#dcddde', margin: '0 auto' }}
+                    sx={{ color: '#dcddde', margin: '0 auto', maxWidth: '80px' }}
                     component={NavLink} to="/login"
                 />
                 <BottomNavigationAction
                     showLabel
                     label="Cart"
                     icon={<ShoppingCartIcon />}
-                    sx={{ color: '#dcddde', margin: '0 auto' }}
+                    sx={{ color: '#dcddde', margin: '0 auto', maxWidth: '80px' }}
                     component={NavLink} to="/cart"
                 />
             </BottomNavigation>

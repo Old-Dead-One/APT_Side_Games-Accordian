@@ -1,6 +1,5 @@
 import { useLocation, NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material';
-import { Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Box, Button } from '@mui/material';
 import { useTheme } from './MuiThemeContext';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -71,10 +70,10 @@ const TopNavBar = () => {
 
                     <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
                         <IconButton edge="end" color="inherit">
-                            {location.pathname === '/'}
+                            {/* {location.pathname === '/'}
                             {location.pathname === '/profile'}
                             {location.pathname === '/login'}
-                            {location.pathname === '/cart'}
+                            {location.pathname === '/cart'} */}
                         </IconButton>
                     </Box>
 

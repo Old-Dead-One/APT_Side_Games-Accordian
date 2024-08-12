@@ -1,20 +1,28 @@
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import { Autocomplete, TextField, Typography } from '@mui/material';
+import { Location } from './Types';
 
-const LocationAutoComplete = () => {
+interface LocationAutoCompleteProps {
+    locations: Location[];
+    onSelect: (value: Location | null) => void;
+}
+
+const LocationAutoComplete: React.FC<LocationAutoCompleteProps> = ({ locations, onSelect }) => {
     return (
         <Autocomplete
             disablePortal
             id="location"
-            options={location}
-            sx={{ minWidth: '320px auto' }}
+            options={locations}
+            getOptionLabel={(option) => option.label}
+            renderOption={(props, option) => (
+                <li {...props}>
+                    <Typography variant="body1">{option.label}</Typography>
+                </li>
+            )}
+            onChange={(_event, value) => onSelect(value)}
+            sx={{ minWidth: '320px' }}
             renderInput={(params) => <TextField {...params} label="Find a Location" />}
         />
     );
 }
 
 export default LocationAutoComplete;
-
-const location = [
-    { label: 'Amatuer Players Tour', year: 1994 },
-];
