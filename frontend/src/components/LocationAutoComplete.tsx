@@ -1,28 +1,29 @@
-import { Autocomplete, TextField, Typography } from '@mui/material';
-import { Location } from './Types';
+import React from 'react';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import { LocationDetail } from './Types';
 
 interface LocationAutoCompleteProps {
-    locations: Location[];
-    onSelect: (value: Location | null) => void;
+    locations: LocationDetail[];
+    tour_Id: number | null;
+    onSelectLocation: (location: LocationDetail | null) => void;
 }
 
-const LocationAutoComplete: React.FC<LocationAutoCompleteProps> = ({ locations, onSelect }) => {
+const LocationAutoComplete: React.FC<LocationAutoCompleteProps> = ({ locations, tour_Id, onSelectLocation }) => {
+
+    const handleSelect = (_event: React.SyntheticEvent, value: LocationDetail | null) => {
+        onSelectLocation(value);
+    };
+
     return (
         <Autocomplete
-            disablePortal
-            id="location"
             options={locations}
             getOptionLabel={(option) => option.label}
-            renderOption={(props, option) => (
-                <li {...props}>
-                    <Typography variant="body1">{option.label}</Typography>
-                </li>
-            )}
-            onChange={(_event, value) => onSelect(value)}
-            sx={{ minWidth: '320px' }}
-            renderInput={(params) => <TextField {...params} label="Find a Location" />}
+            renderInput={(params) => <TextField {...params} label="Select Location" variant="outlined" />}
+            onChange={handleSelect}
+            disabled={!tour_Id} // Disable if no tour is selected
         />
     );
-}
+};
 
 export default LocationAutoComplete;

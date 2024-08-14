@@ -1,7 +1,7 @@
 [
   {
     "tour_id": 1,
-    "label": "Amateur Players Tour",
+    "tour_label": "Amateur Players Tour",
     "year": 2024,
     "locations": [
       { "location_id": 1, "label": "Amateur Players Tour", "year": 2024 },

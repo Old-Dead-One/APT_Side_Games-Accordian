@@ -1,6 +1,8 @@
 [
   {
     "tour_id": 1,
+    "tour_label": "Amateur Players Tour",
+    "year": 2024,
     "events": [
       {
         "location_id": 1,
@@ -380,6 +382,8 @@
   },
   {
     "tour_id": 2,
+    "tour_label": "Amateur Players Tour",
+    "year": 2025,
     "events": [
       {
         "location_id": 1,
@@ -453,6 +457,8 @@
   },
   {
     "tour_id": 3,
+    "tour_label": "Pro Golf Tour",
+    "year": 2024,
     "events": [
       {
         "location_id": 1,
@@ -509,6 +515,8 @@
   },
   {
     "tour_id": 4,
+    "tour_label": "Pro Golf Tour",
+    "year": 2025,
     "events": [
       {
         "location_id": 1,

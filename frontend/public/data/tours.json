@@ -1,0 +1,23 @@
+[
+  {
+    "tour_id": 1,
+    "label": "Amateur Players Tour 2024",
+    "year": 2024
+  },
+  {
+    "tour_id": 2,
+    "label": "Amateur Players Tour 2025",
+    "year": 2025,
+    "locations": []
+  },
+  {
+    "tour_id": 3,
+    "label": "Pro Golf Tour 2024",
+    "year": 2024
+  },
+  {
+    "tour_id": 4,
+    "label": "Pro Golf Tour 2025",
+    "year": 2025
+  }
+]

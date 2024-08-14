@@ -1,36 +1,27 @@
-import { Autocomplete, TextField, Box, Typography } from '@mui/material';
+import React from 'react';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import { Tour } from './Types';
 
 interface TourAutoCompleteProps {
     tours: Tour[];
-    onSelect: (value: Tour | null) => void;
+    onSelect: (tourId: number | null) => void;
 }
 
 const TourAutoComplete: React.FC<TourAutoCompleteProps> = ({ tours, onSelect }) => {
+    const handleSelect = (_event: React.SyntheticEvent, value: Tour | null) => {
+        onSelect(value ? value.tour_id : null);
+    };
+
     return (
         <Autocomplete
-            disablePortal
-            id="tour"
             options={tours}
-            getOptionLabel={(option) => `${option.label} / ${option.year}`}
-            renderOption={(props, option) => {
-                const { key, ...restProps } = props;
-
-                return (
-                    <li {...restProps} key={key}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <Typography variant="body1">{option.label}</Typography>
-                            <Typography variant="body1" color="textSecondary">{option.year}</Typography>
-                        </Box>
-                    </li>
-                );
-            }
-            }
-            onChange={(_event, value) => onSelect(value)}
-            sx={{ minWidth: '320px' }}
-            renderInput={(params) => <TextField {...params} label="Find a Tour" />}
+            getOptionLabel={(option) => `${option.label} (${option.year})`}
+            onChange={handleSelect}
+            renderInput={(params) => <TextField {...params} label="Select Tour" variant="outlined" />}
+            fullWidth
         />
     );
-}
+};
 
 export default TourAutoComplete;

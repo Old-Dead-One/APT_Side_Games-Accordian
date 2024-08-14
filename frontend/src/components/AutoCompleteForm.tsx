@@ -1,66 +1,62 @@
-import React from 'react';
-import { Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import TourAutoComplete from './TourAutoComplete';
 import LocationAutoComplete from './LocationAutoComplete';
 import EventAutoComplete from './EventAutoComplete';
-import { Tour, Location, Event } from './Types';
+import { Tour, Location, Event, LocationDetail } from './Types';
 
-// interface Location {
-//     location_id: number;
-//     label: string;
-//     year: number;
-//     tour_id: number;
-// }
+const ParentComponent: React.FC = () => {
+    const [tours, setTours] = useState<Tour[]>([]);
+    const [locations, setLocations] = useState<Location[]>([]);
+    const [events, setEvents] = useState<Event[]>([]);
+    const [selectedTourId, setSelectedTourId] = useState<number | null>(null);
+    const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null);
 
-// interface Event {
-//     event_id: number;
-//     name: string;
-//     course: string;
-//     date: string;
-//     chapter_name: string;
-//     location_id: number;
-// }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const toursResponse = await fetch('/data/tours.json');
+                const toursData: Tour[] = await toursResponse.json();
+                setTours(toursData);
 
-// interface Tour {
-//     tour_id: number;
-//     label: string;
-//     year: number;
-//     locations: Location[];
-// }
+                const locationsResponse = await fetch('/data/locations.json');
+                const locationsData: Location[] = await locationsResponse.json();
+                setLocations(locationsData);
 
-interface AutoCompleteFormProps {
-    tours: Tour[];
-    locations: Location[];
-    events: Event[];
-    onSelectTour: (value: Tour | null) => void;
-    onSelectLocation: (location: Location | null) => void;
-    onSelectEvent: (event: Event | null) => void;
-}
+                const eventsResponse = await fetch('/data/events.json');
+                const eventsData: Event[] = await eventsResponse.json();
+                setEvents(eventsData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
-    tours,
-    locations,
-    events,
-    onSelectTour,
-    onSelectLocation,
-    onSelectEvent
-}) => {
+        fetchData();
+    }, []);
+
+    const filteredLocationDetails: LocationDetail[] = selectedTourId
+        ? locations
+            .filter(location => location.tour_id === selectedTourId)
+            .flatMap(location => location.locations)
+        : [];
+
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <TourAutoComplete
-                tours={tours}
-                onSelect={onSelectTour}
-            />
+        <div>
+            <TourAutoComplete tours={tours} onSelect={setSelectedTourId} />
+            <br />
             <LocationAutoComplete
-                locations={locations}
-                onSelect={onSelectLocation}
+                locations={filteredLocationDetails}
+                tour_Id={selectedTourId}
+                onSelectLocation={(location: LocationDetail | null) => setSelectedLocationId(location ? location.location_id : null)}
             />
+            <br />
             <EventAutoComplete
                 events={events}
-                onSelect={onSelectEvent}
+                tourId={selectedTourId}
+                locationId={selectedLocationId}
+                onSelect={(event) => console.log(event)}
             />
-        </Box>
+        </div>
     );
 };
 
-export default AutoCompleteForm;
+export default ParentComponent;
