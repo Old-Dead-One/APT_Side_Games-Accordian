@@ -1,5 +1,3 @@
-// Type definitions for the components
-
 // Tour interface to represent tour data
 export interface Tour {
     tour_id: number;
@@ -16,7 +14,7 @@ export interface Location {
 }
 
 // LocationDetail interface to represent detailed location data
-export interface LocationDetail {
+export interface LocationDetail extends Location {
     location_id: number;
     label: string;
     year: number;
@@ -31,26 +29,16 @@ export interface Event {
 }
 
 // LocationEvent interface to represent events for a specific location
-export interface LocationEvent {
+export interface LocationEvent extends Event {
     location_id: number;
     events: EventItem[];
 }
 
 // EventItem interface to represent individual event details
-export interface EventItem {
+export interface EventItem extends LocationEvent {
     event_id: number;
     name: string;
     course: string;
     date: string;
 }
 
-export interface AutoCompleteFormProps {
-    tours: Tour[];
-    locations: Location[];
-    events: Event[];
-    onSelectTour: (tourId: number | null) => void;
-    onSelectLocation: (locationId: number | null) => void;
-    onSelectEvent: (event: EventItem | null) => void;
-    selectedTour: Tour | null;
-    selectedLocation: LocationDetail | null;
-}

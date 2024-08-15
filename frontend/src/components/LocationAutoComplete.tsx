@@ -6,22 +6,24 @@ import { LocationDetail } from './Types';
 interface LocationAutoCompleteProps {
     locations: LocationDetail[];
     tour_Id: number | null;
-    onSelectLocation: (location: LocationDetail | null) => void;
+    value: LocationDetail | null;
+    onSelect: (location: LocationDetail | null) => void;
 }
 
-const LocationAutoComplete: React.FC<LocationAutoCompleteProps> = ({ locations, tour_Id, onSelectLocation }) => {
-
-    const handleSelect = (_event: React.SyntheticEvent, value: LocationDetail | null) => {
-        onSelectLocation(value);
+const LocationAutoComplete: React.FC<LocationAutoCompleteProps> = ({ locations, tour_Id, value, onSelect }) => {
+    const handleSelect = (_event: React.SyntheticEvent, newValue: LocationDetail | null) => {
+        onSelect(newValue);
     };
 
     return (
         <Autocomplete
             options={locations}
             getOptionLabel={(option) => option.label}
-            renderInput={(params) => <TextField {...params} label="Select Location" variant="outlined" />}
+            value={value}
             onChange={handleSelect}
-            disabled={!tour_Id} // Disable if no tour is selected
+            renderInput={(params) => <TextField {...params} label="Select Location" variant="outlined" />}
+            fullWidth
+            disabled={!tour_Id}
         />
     );
 };

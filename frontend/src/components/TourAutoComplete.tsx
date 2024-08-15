@@ -5,20 +5,17 @@ import { Tour } from './Types';
 
 interface TourAutoCompleteProps {
     tours: Tour[];
-    onSelect: (tourId: number | null) => void;
+    value: Tour | null;
+    onSelect: (tourId: number | null, tour: Tour | null) => void;
 }
-
-const TourAutoComplete: React.FC<TourAutoCompleteProps> = ({ tours, onSelect }) => {
-    const handleSelect = (_event: React.SyntheticEvent, value: Tour | null) => {
-        onSelect(value ? value.tour_id : null);
-    };
-
+const TourAutoComplete: React.FC<TourAutoCompleteProps> = ({ tours, value, onSelect }) => {
     return (
         <Autocomplete
             options={tours}
-            getOptionLabel={(option) => `${option.label} (${option.year})`}
-            onChange={handleSelect}
-            renderInput={(params) => <TextField {...params} label="Select Tour" variant="outlined" />}
+            getOptionLabel={(option) => option.label}
+            value={value}
+            onChange={(_event, newValue) => onSelect(newValue ? newValue.tour_id : null, newValue)}
+            renderInput={(params) => <TextField {...params} label="Select Tour" />}
             fullWidth
         />
     );

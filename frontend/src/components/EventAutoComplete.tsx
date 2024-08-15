@@ -7,10 +7,11 @@ interface EventAutoCompleteProps {
     events: Event[];
     tourId: number | null;
     locationId: number | null;
+    value: EventItem | null;
     onSelect: (event: EventItem | null) => void;
 }
 
-const EventAutoComplete: React.FC<EventAutoCompleteProps> = ({ events, tourId, locationId, onSelect }) => {
+const EventAutoComplete: React.FC<EventAutoCompleteProps> = ({ events, tourId, locationId, value, onSelect }) => {
     const filteredEvents = events
         .filter(event => event.tour_id === tourId)
         .flatMap(event => event.events)
@@ -25,9 +26,11 @@ const EventAutoComplete: React.FC<EventAutoCompleteProps> = ({ events, tourId, l
         <Autocomplete
             options={filteredEvents}
             getOptionLabel={(option) => option.name}
+            value={value}
             onChange={handleSelect}
             renderInput={(params) => <TextField {...params} label="Select Event" variant="outlined" />}
             fullWidth
+            disabled={!locationId}
         />
     );
 };
