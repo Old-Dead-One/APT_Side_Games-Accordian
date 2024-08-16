@@ -1,20 +1,22 @@
 import React from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, FormControl, FormControlLabel, RadioGroup, Radio, Typography, Checkbox, Button } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { FormControl, FormControlLabel, RadioGroup, Radio, Typography, Checkbox, Button, Box, Stack } from '@mui/material';
+import useTheme from '@mui/material/styles/useTheme';
 
-const MyAccordionForm = () => {
+const SideGamesForm = () => {
+    const theme = useTheme();
+
     const [net, setNet] = React.useState<string | null>(null);
     const [division, setDivision] = React.useState<string | null>(null);
     const [superSkins, setSuperSkins] = React.useState<boolean>(false);
 
     const handleNetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        setNet(value === net ? null : value); // Toggle selection
+        setNet(value === net ? null : value);
     };
 
     const handleDivisionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        setDivision(value === division ? null : value); // Toggle selection
+        setDivision(value === division ? null : value);
     };
 
     const handleSuperSkinsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,66 +30,108 @@ const MyAccordionForm = () => {
         setSuperSkins(false);
     };
 
+    const getLabelColor = (selected: boolean) => selected ? theme.palette.primary : theme.palette.text.disabled;
+
     return (
-        <Accordion>
-            <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="side-games-content"
-                id="side-games-header"
-                sx={{ margin: '0' }}
-            >
-                <Typography variant="subtitle1">Select Side Games</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
+        <Box
+            sx={{
+                flex: 1,
+                paddingBottom: '6px',
+                border: '1px solid',
+                borderColor: theme.palette.mode === 'dark' ? '#dcddde' : '#000000',
+                borderRadius: '10px',
+                boxSizing: 'border-box',
+                backgroundColor: theme.palette.background.paper,
+                color: theme.palette.text.primary,
+            }}
+        >
+            <Typography align="center" variant="h6">
+                <strong>Available Side Games</strong>
+            </Typography>
+            <FormControl component="fieldset">
+                <Typography variant="inherit" align="left">Net Games</Typography>
+                <RadioGroup
+                    name="net-group"
+                    value={net || ''}
+                    onChange={handleNetChange}
+                    sx={{ mb: 2 }}
+                >
+                    <FormControlLabel
+                        value='OpenNet'
+                        control={<Radio size='small' />}
+                        label={<Typography sx={{ color: getLabelColor(net === 'OpenNet') as string }}>Open Net</Typography>}
+                    />
+                    <FormControlLabel
+                        value='SrNet'
+                        control={<Radio size='small' />}
+                        label={<Typography sx={{ color: getLabelColor(net === 'SrNet') as string }}>Senior Net</Typography>}
+                    />
+                </RadioGroup>
+                <Typography variant="inherit" align="left">Skins</Typography>
                 <FormControl component="fieldset">
-                    <Typography variant="h6" align="center">Net Games</Typography>
-                    <RadioGroup
-                        name="net-group"
-                        value={net || ''}
-                        onChange={handleNetChange}
-                        sx={{ mb: 2 }}
-                    >
-                        <FormControlLabel value='OpenNet' control={<Radio size='small' />} label='Open Net' />
-                        <FormControlLabel value='SrNet' control={<Radio size='small' />} label='Sr. Net' />
-                    </RadioGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                size='small'
+                                checked={superSkins}
+                                onChange={handleSuperSkinsChange}
+                            />
+                        }
+                        label={<Typography sx={{ color: getLabelColor(superSkins) as string }}>Super Skins</Typography>}
+                    />
+                </FormControl>
+                <RadioGroup
+                    name="division-group"
+                    value={division || ''}
+                    onChange={handleDivisionChange}
+                >
+                    <FormControlLabel
+                        value='D1Skins'
+                        control={<Radio size='small' />}
+                        label={<Typography sx={{ color: getLabelColor(division === 'D1Skins') as string }}>Division 1</Typography>}
+                    />
+                    <FormControlLabel
+                        value='D2Skins'
+                        control={<Radio size='small' />}
+                        label={<Typography sx={{ color: getLabelColor(division === 'D2Skins') as string }}>Division 2</Typography>}
+                    />
+                    <FormControlLabel
+                        value='D3Skins'
+                        control={<Radio size='small' />}
+                        label={<Typography sx={{ color: getLabelColor(division === 'D3Skins') as string }}>Division 3</Typography>}
+                    />
+                    <FormControlLabel
+                        value='D4Skins'
+                        control={<Radio size='small' />}
+                        label={<Typography sx={{ color: getLabelColor(division === 'D4Skins') as string }}>Division 4</Typography>}
+                    />
+                    <FormControlLabel
+                        value='D5Skins'
+                        control={<Radio size='small' />}
+                        label={<Typography sx={{ color: getLabelColor(division === 'D5Skins') as string }}>Division 5</Typography>}
+                    />
+                </RadioGroup>
+                <Typography variant="h5" align="right">Total:</Typography>
 
-                    <Typography variant="h6" align="center">Skins</Typography>
-                    <FormControl component="fieldset">
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    size='small'
-                                    checked={superSkins}
-                                    onChange={handleSuperSkinsChange}
-                                />
-                            }
-                            label='Super Skins'
-                        />
-                    </FormControl>
-                    <RadioGroup
-                        name="division-group"
-                        value={division || ''}
-                        onChange={handleDivisionChange}
-                    >
-                        <FormControlLabel value='D1Skins' control={<Radio size='small' />} label='Division 1' />
-                        <FormControlLabel value='D2Skins' control={<Radio size='small' />} label='Division 2' />
-                        <FormControlLabel value='D3Skins' control={<Radio size='small' />} label='Division 3' />
-                        <FormControlLabel value='D4Skins' control={<Radio size='small' />} label='Division 4' />
-                        <FormControlLabel value='D5Skins' control={<Radio size='small' />} label='Division 5' />
-                    </RadioGroup>
-
+                <Stack spacing={15} direction="row">
                     <Button
                         variant="contained"
                         color="secondary"
                         onClick={handleReset}
-                        sx={{ mt: 2 }}
                     >
                         Reset
                     </Button>
-                </FormControl>
-            </AccordionDetails>
-        </Accordion>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={handleReset}
+                    >
+                        Add to Cart
+                    </Button>
+                </Stack>
+            </FormControl>
+        </Box>
     );
 };
 
-export default MyAccordionForm;
+export default SideGamesForm;

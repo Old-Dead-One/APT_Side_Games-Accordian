@@ -26,7 +26,12 @@ const TopNavBar = () => {
     return (
         <AppBar position="static" sx={{ width: 'auto', mb: 2, backgroundColor: '#0f5298' }}>
             <Toolbar>
-                <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+                <Box
+                    sx={{
+                        flexGrow: 1,
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}>
                     <NavLink to="/" style={{ color: "inherit", textDecoration: "none" }}>
                         <Button
                             size='large'
@@ -69,14 +74,8 @@ const TopNavBar = () => {
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                        <IconButton edge="end" color="inherit">
-                            {/* {location.pathname === '/'}
-                            {location.pathname === '/profile'}
-                            {location.pathname === '/login'}
-                            {location.pathname === '/cart'} */}
-                        </IconButton>
+                        <IconButton edge="end" color="inherit"></IconButton>
                     </Box>
-
                     {getTopNavContent()}
                 </Box>
             </Toolbar>
