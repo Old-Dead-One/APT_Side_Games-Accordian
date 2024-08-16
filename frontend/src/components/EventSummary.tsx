@@ -1,7 +1,7 @@
 import React from 'react';
 import { EventItem } from './Types';
 import { Accordion, Typography, TextField } from '@mui/material';
-import SideGamesForm from './SideGamesForm';
+import SideGamesTable from './SideGamesTable';
 
 interface EventSummaryProps {
     selectedEvent: EventItem | null;
@@ -40,7 +40,7 @@ const EventSummary: React.FC<EventSummaryProps> = ({ selectedEvent, tourLabel, l
                     <p><strong>Event Name:</strong> {selectedEvent.name}</p>
                     <p><strong>Course:</strong> {selectedEvent.course}</p>
                     <p><strong>Date:</strong> {new Date(selectedEvent.date).toLocaleDateString()}</p>
-                    <SideGamesForm />
+                    <SideGamesTable />
                 </fieldset>
             </Typography>
         </div>

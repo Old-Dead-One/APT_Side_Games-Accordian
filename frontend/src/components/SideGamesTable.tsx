@@ -1,90 +1,188 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import React from 'react';
+import { Radio, Checkbox, Typography, Button, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import useTheme from '@mui/material/styles/useTheme';
 
-const TAX_RATE = 0.07;
+const SideGamesTable = () => {
+    const theme = useTheme();
 
-function ccyFormat(num: number) {
-    return `${num.toFixed(2)}`;
-}
+    const [net, setNet] = React.useState<string | null>(null);
+    const [division, setDivision] = React.useState<string | null>(null);
+    const [superSkins, setSuperSkins] = React.useState<boolean>(false);
 
-function priceRow(qty: number, unit: number) {
-    return qty * unit;
-}
+    const handleNetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setNet(value === net ? null : value);
+    };
 
-function createRow(desc: string, qty: number, unit: number) {
-    const price = priceRow(qty, unit);
-    return { desc, qty, unit, price };
-}
+    const handleDivisionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setDivision(value === division ? null : value);
+    };
 
-interface Row {
-    desc: string;
-    qty: number;
-    unit: number;
-    price: number;
-}
+    const handleSuperSkinsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const checked = event.target.checked;
+        setSuperSkins(checked);
+    };
 
-function subtotal(items: readonly Row[]) {
-    return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
-}
+    const handleReset = () => {
+        setNet(null);
+        setDivision(null);
+        setSuperSkins(false);
+    };
 
-const rows = [
-    createRow('Paperclips (Box)', 100, 1.15),
-    createRow('Paper (Case)', 10, 45.99),
-    createRow('Waste Basket', 2, 17.99),
-];
+    const getLabelColor = (selected: boolean) => selected ? theme.palette.primary : theme.palette.text.disabled;
 
-const invoiceSubtotal = subtotal(rows);
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+    const rows = [
+        { name: 'Open Net', cost: 30, selected: net === 'OpenNet' },
+        { name: 'Senior Net', cost: 40, selected: net === 'SrNet' },
+        { name: 'Super Skins', cost: 40, selected: superSkins },
+        { name: 'Division 1', cost: 20, selected: division === 'D1Skins' },
+        { name: 'Division 2', cost: 20, selected: division === 'D2Skins' },
+        { name: 'Division 3', cost: 20, selected: division === 'D3Skins' },
+        { name: 'Division 4', cost: 20, selected: division === 'D4Skins' },
+        { name: 'Division 5', cost: 20, selected: division === 'D5Skins' },
+    ];
 
-export default function SpanningTable() {
+    const totalCost = rows.reduce((acc, row) => acc + (row.selected ? row.cost : 0), 0);
+
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+            <Typography align="center" variant='h6'>
+                <strong>Available Side Games</strong>
+            </Typography>
+            <Table sx={{ minWidth: 320 }} size="small" aria-label="side games table">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center" colSpan={3}>
-                            Details
+                        <TableCell>
+                            <Typography variant='subtitle1'>
+                                <strong>Net</strong>
+                            </Typography>
                         </TableCell>
-                        <TableCell align="right">Price</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>Desc</TableCell>
-                        <TableCell align="right">Qty.</TableCell>
-                        <TableCell align="right">Unit</TableCell>
-                        <TableCell align="right">Sum</TableCell>
+                        <TableCell>
+                            <Typography variant='subtitle1'>
+                                <strong>Games</strong>
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography align='right' variant='subtitle1'>
+                                <strong>Cost</strong>
+                            </Typography>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.desc}>
-                            <TableCell>{row.desc}</TableCell>
-                            <TableCell align="right">{row.qty}</TableCell>
-                            <TableCell align="right">{row.unit}</TableCell>
-                            <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+                    <TableRow>
+                        <TableCell>
+                            <Radio
+                                size="small"
+                                checked={net === 'OpenNet'}
+                                onChange={handleNetChange}
+                                value="OpenNet"
+                                sx={{ color: getLabelColor(net === 'OpenNet') as string, padding: 0 }}
+                            />
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                            <Typography sx={{ color: getLabelColor(net === 'OpenNet') as string | undefined }}>
+                                Open Net
+                            </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                            <Typography sx={{ color: getLabelColor(net === 'OpenNet') as string | undefined }}>
+                                $30
+                            </Typography>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Radio
+                                size="small"
+                                checked={net === 'SrNet'}
+                                onChange={handleNetChange}
+                                value="SrNet"
+                                sx={{ color: getLabelColor(net === 'SrNet') as string, padding: 0 }}
+                            />
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                            <Typography sx={{ color: getLabelColor(net === 'SrNet') as string | undefined }}>
+                                Senior Net
+                            </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                            <Typography sx={{ color: getLabelColor(net === 'SrNet') as string | undefined }}>
+                                $40
+                            </Typography>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell colSpan={3} component="th" scope="row">
+                            <Typography variant='subtitle1'>
+                                <strong>Gross</strong>
+                            </Typography>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Checkbox
+                                size="small"
+                                checked={superSkins}
+                                onChange={handleSuperSkinsChange}
+                                sx={{ color: getLabelColor(superSkins) as string, padding: 0, }}
+                            />
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                            <Typography sx={{ color: getLabelColor(superSkins) as string | undefined }}>
+                                Super Skins
+                            </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                            <Typography sx={{ color: getLabelColor(superSkins) as string | undefined }}>
+                                $40
+                            </Typography>
+                        </TableCell>
+                    </TableRow>
+                    {['D1Skins', 'D2Skins', 'D3Skins', 'D4Skins', 'D5Skins'].map((divisionValue, index) => (
+                        <TableRow key={divisionValue}>
+                            <TableCell>
+                                <Radio
+                                    size="small"
+                                    checked={division === divisionValue}
+                                    onChange={handleDivisionChange}
+                                    value={divisionValue}
+                                    sx={{ color: getLabelColor(division === divisionValue) as string, padding: 0 }}
+                                />
+                            </TableCell>
+                            <TableCell component="th" scope="row">
+                                <Typography sx={{ color: getLabelColor(division === divisionValue) as string | undefined }}>
+                                    Division {index + 1}
+                                </Typography>
+                            </TableCell>
+                            <TableCell align="right">
+                                <Typography sx={{ color: getLabelColor(division === divisionValue) as string | undefined }}>$20</Typography>
+                            </TableCell>
                         </TableRow>
                     ))}
                     <TableRow>
-                        <TableCell rowSpan={3} />
-                        <TableCell colSpan={2}>Subtotal</TableCell>
-                        <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
+                        <TableCell component="th" scope="row"><strong>Total</strong></TableCell>
+                        <TableCell colSpan={2} align="right">
+                            <Typography sx={{ color: getLabelColor(!!totalCost) as string }}><strong>${totalCost}</strong></Typography>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell>Tax</TableCell>
-                        <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-                        <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell colSpan={2}>Total</TableCell>
-                        <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
+                        <TableCell colSpan={3}>
+                            <Stack direction="row" justifyContent="space-between">
+                                <Button variant="contained" color="secondary" onClick={handleReset} sx={{ padding: 0 }}>
+                                    Reset
+                                </Button>
+                                <Button variant="contained" color="secondary">
+                                    Add to Cart
+                                </Button>
+                            </Stack>
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
         </TableContainer>
     );
-}
+};
+
+export default SideGamesTable;
