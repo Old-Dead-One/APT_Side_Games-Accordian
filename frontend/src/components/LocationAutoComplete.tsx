@@ -5,14 +5,14 @@ import { LocationDetail } from './Types';
 
 interface LocationAutoCompleteProps {
     locations: LocationDetail[];
-    tour_Id: number | null;
+    tour_id: number | null;
     value: LocationDetail | null;
-    onSelect: (location: LocationDetail | null) => void;
+    onSelectLocation: (location: LocationDetail | null) => void;
 }
 
-const LocationAutoComplete: React.FC<LocationAutoCompleteProps> = ({ locations, tour_Id, value, onSelect }) => {
+const LocationAutoComplete: React.FC<LocationAutoCompleteProps> = ({ locations, tour_id, value, onSelectLocation }) => {
     const handleSelect = (_event: React.SyntheticEvent, newValue: LocationDetail | null) => {
-        onSelect(newValue);
+        onSelectLocation(newValue);
     };
 
     return (
@@ -23,7 +23,7 @@ const LocationAutoComplete: React.FC<LocationAutoCompleteProps> = ({ locations, 
             onChange={handleSelect}
             renderInput={(params) => <TextField {...params} label="Select Location" variant="outlined" />}
             fullWidth
-            disabled={!tour_Id}
+            disabled={!tour_id}
         />
     );
 };

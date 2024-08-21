@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import { Box } from '@mui/material';
 import MuiLayout from './components/MuiLayout';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -10,7 +9,7 @@ import './App.css';
 function App() {
   return (
     <div className='App'>
-      <Box>
+      <>
         <MuiLayout>
           <Routes>
             <Route path='/' element={<Home />} />
@@ -19,7 +18,7 @@ function App() {
             <Route path='/cart' element={<Cart />} />
           </Routes>
         </MuiLayout>
-      </Box>
+      </>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { EventItem } from './Types';
-import { Accordion, Typography, TextField } from '@mui/material';
-import SideGamesTable from './SideGamesTable';
+import { Accordion, TextField, List, Box, ListItem } from '@mui/material';
 
 interface EventSummaryProps {
     selectedEvent: EventItem | null;
@@ -11,39 +10,28 @@ interface EventSummaryProps {
 
 const EventSummary: React.FC<EventSummaryProps> = ({ selectedEvent, tourLabel, locationLabel }) => {
     if (!selectedEvent) {
-        return <div>
+        return (
             <Accordion>
-                <Typography>
-                    <TextField
-                        label="No event selected"
-                        disabled
-                        fullWidth
-                        variant='outlined'
-                    />
-                </Typography>
+                <TextField
+                    label="No event selected"
+                    disabled
+                    fullWidth
+                    variant='outlined'
+                />
             </Accordion>
-        </div>;
+        );
     }
 
     return (
-        <div>
-            <Typography>
-                <fieldset
-                    style={{
-                        border: '1px solid #ccc',
-                        padding: '1rem',
-                        borderRadius: '5px',
-                    }}
-                >
-                    <p><strong>Tour:</strong> {tourLabel}</p>
-                    <p><strong>Location:</strong> {locationLabel}</p>
-                    <p><strong>Event Name:</strong> {selectedEvent.name}</p>
-                    <p><strong>Course:</strong> {selectedEvent.course}</p>
-                    <p><strong>Date:</strong> {new Date(selectedEvent.date).toLocaleDateString()}</p>
-                    <SideGamesTable />
-                </fieldset>
-            </Typography>
-        </div>
+        <Box>
+            <List>
+                <ListItem disableGutters disablePadding><strong>Tour:&nbsp;</strong> {tourLabel}</ListItem>
+                <ListItem disableGutters disablePadding><strong>Location:&nbsp;</strong> {locationLabel}</ListItem>
+                <ListItem disableGutters disablePadding><strong>Event Name:&nbsp;</strong> {selectedEvent.name}</ListItem>
+                <ListItem disableGutters disablePadding><strong>Course:&nbsp;</strong> {selectedEvent.course}</ListItem>
+                <ListItem disableGutters disablePadding><strong>Date:&nbsp;</strong> {new Date(selectedEvent.date).toLocaleDateString()}</ListItem>
+            </List>
+        </Box>
     );
 };
 

@@ -6,7 +6,7 @@ import { Tour } from './Types';
 interface TourAutoCompleteProps {
     tours: Tour[];
     value: Tour | null;
-    onSelect: (tourId: number | null, tour: Tour | null) => void;
+    onSelect: (tour_id: number | null, tour: Tour | null) => void;
 }
 const TourAutoComplete: React.FC<TourAutoCompleteProps> = ({ tours, value, onSelect }) => {
     return (

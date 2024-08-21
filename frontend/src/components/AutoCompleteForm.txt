@@ -3,15 +3,16 @@ import TourAutoComplete from './TourAutoComplete';
 import LocationAutoComplete from './LocationAutoComplete';
 import EventAutoComplete from './EventAutoComplete';
 import EventSummary from './EventSummary';
-import SelectSideGames from './SelectSideGames';
-import { Tour, LocationDetail, EventItem, SideGames } from './Types';
-import { Accordion, AccordionSummary, AccordionDetails, Box, Typography } from '@mui/material';
+import SelectSideGames from './SideGameSelection';
+import { Tour, LocationDetail, EventItem, LocationEvent } from './Types';
+import { AccordionSummary, AccordionDetails, Box, Typography } from '@mui/material';
+import { Accordion } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface AutoCompleteFormProps {
     tours: Tour[];
     locations: LocationDetail[];
-    events: EventItem[];
+    events: LocationEvent[];
     selectedTourId: number | null;
     selectedLocationId: number | null;
     selectedEvent: EventItem | null;
@@ -23,15 +24,6 @@ interface AutoCompleteFormProps {
     onSelectEvent: (event: EventItem | null) => void;
     expanded: string | false;
     onAccordionChange: (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-    sideGamesRows: SideGames[];
-    net: string | null;
-    division: string | null;
-    superSkins: boolean;
-    totalCost: number;
-    onNetChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onDivisionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onSuperSkinsChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onAddToCart: () => void;
 }
 
 const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
@@ -49,15 +41,6 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
     onSelectEvent,
     expanded,
     onAccordionChange,
-    sideGamesRows,
-    net,
-    division,
-    superSkins,
-    totalCost,
-    onNetChange,
-    onDivisionChange,
-    onSuperSkinsChange,
-    // onAddToCart
 }) => {
     const selectedTourLabel = tours.find(tour => tour.tour_id === selectedTourId)?.label || null;
     const selectedLocationLabel = selectedLocationId
@@ -88,57 +71,49 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
                             onSelect={onSelectTour}
                         />
                     </Box>
-                    <Box marginBottom={1.5}>
+                    <Box
+                        marginBottom={1.5}>
                         <LocationAutoComplete
                             locations={locations}
-                            tour_id={selectedTourId}
+                            tour_Id={selectedTourId}
                             value={locationValue}
-                            onSelectLocation={onSelectLocation}
+                            onSelect={onSelectLocation}
                         />
                     </Box>
-                    <EventAutoComplete
-                        events={events}
-                        tourId={selectedTourId}
-                        locationId={selectedLocationId}
-                        value={eventValue}
-                        onSelect={onSelectEvent}
-                    />
+                    <Box>
+                        <EventAutoComplete
+                            events={events}
+                            tourId={selectedTourId}
+                            locationId={selectedLocationId}
+                            value={eventValue}
+                            onSelect={onSelectEvent}
+                        />
+                    </Box>
                 </AccordionDetails>
             </Accordion>
             <Accordion
                 expanded={expanded === 'eventsummarypanel'}
                 onChange={onAccordionChange('eventsummarypanel')}
-                elevation={0}
                 variant='outlined'
-                sx={{ paddingTop: .5, paddingBottom: .5, }}
+                sx={{
+                    paddingTop: .5,
+                    paddingBottom: .5,
+                }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel2a-content"
                     id="panel2a-header"
                 >
-                    <Typography>Event Summary</Typography>
+                    <Typography>Selected Event Summary</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <EventSummary
+                        selectedEvent={selectedEvent}
                         tourLabel={selectedTourLabel}
                         locationLabel={selectedLocationLabel}
-                        selectedEvent={selectedEvent}
                     />
-                    <SelectSideGames
-                        rows={sideGamesRows}
-                        net={net}
-                        division={division}
-                        superSkins={superSkins}
-                        totalCost={totalCost}
-                        // selectedEvent={selectedEvent}
-                        // tourLabel={selectedTourLabel}
-                        // locationLabel={selectedLocationLabel}
-                        onNetChange={onNetChange}
-                        onDivisionChange={onDivisionChange}
-                        onSuperSkinsChange={onSuperSkinsChange}
-                    // onAddToCart={onAddToCart}
-                    />
+                    <SelectSideGames />
                 </AccordionDetails>
             </Accordion>
         </>

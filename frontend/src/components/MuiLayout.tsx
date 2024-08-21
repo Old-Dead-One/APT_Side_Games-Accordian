@@ -6,7 +6,7 @@ import useTheme from '@mui/material/styles/useTheme';
 const MuiLayout = ({ children }: { children: React.ReactNode }) => {
     const theme = useTheme();
     return (
-        <Box>
+        <>
             <TopNavBar />
             <Box
                 sx={{
@@ -31,7 +31,7 @@ const MuiLayout = ({ children }: { children: React.ReactNode }) => {
                 {children}
             </Box>
             <BottomNavBar />
-        </Box>
+        </>
     );
 };
 
