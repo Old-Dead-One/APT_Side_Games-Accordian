@@ -11,6 +11,7 @@ interface SideGamesTableProps {
     onDivisionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onSuperSkinsChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onAddToCart: () => void;
+    totalCost: number;
 }
 
 const SideGamesTable: React.FC<SideGamesTableProps> = ({
@@ -25,9 +26,8 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
 }) => {
     const theme = useTheme();
 
-    // Calculate total cost based on selected games
     const totalCost = rows.reduce((acc: number, row) => {
-        if (row.key === 'SuperSkins' && superSkins) {
+        if (row.key === 'Super Skins' && superSkins) {
             return acc + row.value;
         } else if (row.key === net || row.key === division) {
             return acc + row.value;
@@ -38,7 +38,7 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
 
-        if (value === 'SuperSkins') {
+        if (value === 'Super Skins') {
             onSuperSkinsChange(event);
         } else if (value.startsWith('D')) {
             onDivisionChange(event);
@@ -48,7 +48,7 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
     };
 
     const getLabelColor = (key: string) => {
-        if (key === 'SuperSkins') {
+        if (key === 'Super Skins') {
             return superSkins ? theme.palette.primary.main : theme.palette.text.disabled;
         } else if (key === net || key === division) {
             return theme.palette.primary.main;
@@ -92,7 +92,7 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
                                     control={
                                         <Checkbox
                                             size="small"
-                                            checked={row.key === 'SuperSkins' ? superSkins : (row.key === net || row.key === division)}
+                                            checked={row.key === 'Super Skins' ? superSkins : (row.key === net || row.key === division)}
                                             onChange={handleCheckboxChange}
                                             value={row.key}
                                             sx={{ color: getLabelColor(row.key), padding: 0 }}

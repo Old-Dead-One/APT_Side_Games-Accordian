@@ -57,8 +57,10 @@ export interface SideGame {
 }
 
 // CartItem interface to represent cart item data
-export interface CartItem extends EventItem {
-    sideGames: SideGame[];
+export interface CartItem {
+    name: string;
+    cost: number;
+    selected: boolean;
 }
 
 // Cart interface to represent cart data

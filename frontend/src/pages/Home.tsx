@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useCart } from '../components/CartContext';
 import AutoCompleteForm from '../components/AutoCompleteForm';
 import { Tour, Location, LocationDetail, EventItem, SideGames } from '../components/Types';
 
@@ -13,12 +14,12 @@ const Home: React.FC = () => {
     const [locationValue, setLocationValue] = useState<LocationDetail | null>(null);
     const [eventValue, setEventValue] = useState<EventItem | null>(null);
     const [expanded, setExpanded] = useState<string | false>('tourpanel');
-
     const [sideGamesRows, setSideGamesRows] = useState<SideGames[]>([]);
     const [net, setNet] = useState<string | null>(null);
     const [division, setDivision] = useState<string | null>(null);
     const [superSkins, setSuperSkins] = useState<boolean>(false);
     const [totalCost, setTotalCost] = useState<number>(0);
+    const { addToCart } = useCart();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -77,10 +78,10 @@ const Home: React.FC = () => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const updateSideGamesData = () => {
+    const updateSideGamesData = (newNet: string | null, newDivision: string | null, newSuperSkins: boolean) => {
         const updatedRows = sideGamesRows.map(row => ({
             ...row,
-            selected: (row.key === net) || (row.key === division) || (row.key === 'SuperSkins' && superSkins)
+            selected: (row.key === newNet) || (row.key === newDivision) || (row.key === 'Super Skins' && newSuperSkins)
         }));
 
         const updatedTotalCost = updatedRows.reduce((acc: number, row: SideGames) => {
@@ -93,32 +94,23 @@ const Home: React.FC = () => {
 
     const handleNetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        setNet(value === net ? null : value);
-        updateSideGamesData();
+        const newNet = value === net ? null : value;
+        setNet(newNet);
+        updateSideGamesData(newNet, division, superSkins);
     };
 
     const handleDivisionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        setDivision(value === division ? null : value);
-        updateSideGamesData();
+        const newDivision = value === division ? null : value;
+        setDivision(newDivision);
+        updateSideGamesData(net, newDivision, superSkins);
     };
 
     const handleSuperSkinsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const checked = event.target.checked;
-        setSuperSkins(checked);
-        updateSideGamesData();
-    };
-
-    const handleAddToCart = () => {
-        console.log('Selected Event:', selectedEvent);
-        console.log('Tour Label:', tourValue);
-        console.log('Location Label:', locationValue);
-        console.log('Side Games Rows:', sideGamesRows.map(row => ({
-            name: row.name,
-            cost: row.value,
-            selected: row.selected
-        })));
-        console.log('Total Cost:', totalCost);
+        const value = event.target.checked;
+        const newSuperSkins = value === superSkins ? false : value;
+        setSuperSkins(newSuperSkins);
+        updateSideGamesData(net, division, newSuperSkins);
     };
 
     return (
@@ -146,7 +138,27 @@ const Home: React.FC = () => {
                 onNetChange={handleNetChange}
                 onDivisionChange={handleDivisionChange}
                 onSuperSkinsChange={handleSuperSkinsChange}
-                onAddToCart={handleAddToCart}
+                onAddToCart={() => {
+                    const eventSummary = {
+                        selectedEvent,
+                        tourLabel: tours.find(tour => tour.tour_id === selectedTourId)?.label || null,
+                        locationLabel: filteredLocationDetails.find(loc => loc.location_id === selectedLocationId)?.label || null,
+                    };
+
+                    const sideGamesData = {
+                        net,
+                        division,
+                        superSkins,
+                        rows: sideGamesRows.map(row => ({
+                            name: row.name,
+                            cost: row.value,
+                            selected: (row.key === 'SuperSkins' && superSkins) || (row.key === net || row.key === division),
+                        })),
+                        totalCost,
+                    };
+
+                    addToCart(eventSummary, sideGamesData);
+                }}
             />
         </>
     );

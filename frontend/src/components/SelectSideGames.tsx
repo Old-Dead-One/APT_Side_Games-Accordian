@@ -12,6 +12,7 @@ interface SelectSideGamesProps {
     onNetChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onDivisionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onSuperSkinsChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onAddToCart: () => void;
 }
 
 const SelectSideGames: React.FC<SelectSideGamesProps> = ({
@@ -19,10 +20,11 @@ const SelectSideGames: React.FC<SelectSideGamesProps> = ({
     net,
     division,
     superSkins,
-    // totalCost,
     onNetChange,
     onDivisionChange,
-    onSuperSkinsChange
+    onSuperSkinsChange,
+    onAddToCart,
+    totalCost
 }) => {
 
     return (
@@ -35,11 +37,10 @@ const SelectSideGames: React.FC<SelectSideGamesProps> = ({
                 onNetChange={onNetChange}
                 onDivisionChange={onDivisionChange}
                 onSuperSkinsChange={onSuperSkinsChange}
-                onAddToCart={() => { }}
-            // totalCost={totalCost}
+                onAddToCart={onAddToCart}
+                totalCost={totalCost}
             />
         </Box>
-
     );
 };
 

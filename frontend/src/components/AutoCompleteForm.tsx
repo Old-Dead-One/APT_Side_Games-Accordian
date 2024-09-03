@@ -57,7 +57,7 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
     onNetChange,
     onDivisionChange,
     onSuperSkinsChange,
-    // onAddToCart
+    onAddToCart,
 }) => {
     const selectedTourLabel = tours.find(tour => tour.tour_id === selectedTourId)?.label || null;
     const selectedLocationLabel = selectedLocationId
@@ -126,18 +126,18 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
                         selectedEvent={selectedEvent}
                     />
                     <SelectSideGames
+                        selectedEvent={selectedEvent}
                         rows={sideGamesRows}
                         net={net}
                         division={division}
                         superSkins={superSkins}
                         totalCost={totalCost}
-                        // selectedEvent={selectedEvent}
-                        // tourLabel={selectedTourLabel}
-                        // locationLabel={selectedLocationLabel}
+                        tourLabel={selectedTourLabel}
+                        locationLabel={selectedLocationLabel}
                         onNetChange={onNetChange}
                         onDivisionChange={onDivisionChange}
                         onSuperSkinsChange={onSuperSkinsChange}
-                    // onAddToCart={onAddToCart}
+                        onAddToCart={onAddToCart}
                     />
                 </AccordionDetails>
             </Accordion>
