@@ -1,6 +1,7 @@
 import React from "react";
 import { Checkbox, Typography, Button, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControlLabel } from "@mui/material";
 import useTheme from "@mui/material/styles/useTheme";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 interface SideGamesTableProps {
     rows: Array<{ name: string; key: string; value: number; selected: boolean }>;
@@ -12,6 +13,7 @@ interface SideGamesTableProps {
     onSuperSkinsChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onAddToCart: () => void;
     totalCost: number;
+    disabled: boolean;
 }
 
 const SideGamesTable: React.FC<SideGamesTableProps> = ({
@@ -22,7 +24,8 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
     onNetChange,
     onDivisionChange,
     onSuperSkinsChange,
-    onAddToCart
+    onAddToCart,
+    disabled
 }) => {
     const theme = useTheme();
 
@@ -92,10 +95,13 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
                                     control={
                                         <Checkbox
                                             size="small"
-                                            checked={row.key === "Super Skins" ? superSkins : (row.key === net || row.key === division)}
+                                            checked={row.key === "Super Skins"
+                                                ? superSkins
+                                                : (row.key === net || row.key === division)}
                                             onChange={handleCheckboxChange}
                                             value={row.key}
                                             sx={{ color: getLabelColor(row.key), padding: 0 }}
+                                            disabled={disabled}
                                         />
                                     }
                                     label=""
@@ -124,7 +130,7 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
                     <TableRow>
                         <TableCell colSpan={3}>
                             <Stack direction="row" justifyContent="end">
-                                <Button variant="contained" color="secondary" onClick={onAddToCart}>
+                                <Button variant="contained" color="secondary" startIcon={<AddShoppingCartIcon />} onClick={onAddToCart}>
                                     Add to Cart
                                 </Button>
                             </Stack>

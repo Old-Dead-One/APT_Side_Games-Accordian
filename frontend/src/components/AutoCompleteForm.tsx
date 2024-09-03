@@ -133,7 +133,7 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
                         onDivisionChange={onDivisionChange}
                         onSuperSkinsChange={onSuperSkinsChange}
                         onAddToCart={onAddToCart}
-                    />
+                        disabled={!selectedEvent} selectedEvent={null} />
                 </AccordionDetails>
             </Accordion>
         </>

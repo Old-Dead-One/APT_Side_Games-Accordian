@@ -1,9 +1,10 @@
 import React from "react";
-import { SideGames } from "./Types";
+import { EventItem, SideGames } from "./Types";
 import SideGamesTable from "./SideGamesTable";
 import { Box } from "@mui/material";
 
 interface SelectSideGamesProps {
+    selectedEvent: EventItem | null;
     rows: SideGames[];
     net: string | null;
     division: string | null;
@@ -13,6 +14,7 @@ interface SelectSideGamesProps {
     onDivisionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onSuperSkinsChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onAddToCart: () => void;
+    disabled: boolean;
 }
 
 const SelectSideGames: React.FC<SelectSideGamesProps> = ({
@@ -24,7 +26,8 @@ const SelectSideGames: React.FC<SelectSideGamesProps> = ({
     onDivisionChange,
     onSuperSkinsChange,
     onAddToCart,
-    totalCost
+    totalCost,
+    disabled
 }) => {
 
     return (
@@ -39,6 +42,7 @@ const SelectSideGames: React.FC<SelectSideGamesProps> = ({
                 onSuperSkinsChange={onSuperSkinsChange}
                 onAddToCart={onAddToCart}
                 totalCost={totalCost}
+                disabled={disabled}
             />
         </Box>
     );
