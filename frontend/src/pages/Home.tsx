@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useCart } from '../components/CartContext';
-import AutoCompleteForm from '../components/AutoCompleteForm';
-import { Tour, Location, LocationDetail, EventItem, SideGames } from '../components/Types';
+import React, { useState, useEffect } from "react";
+import { useCart } from "../components/CartContext";
+import AutoCompleteForm from "../components/AutoCompleteForm";
+import { Tour, Location, LocationDetail, EventItem, SideGames } from "../components/Types";
 
 const Home: React.FC = () => {
     const [tours, setTours] = useState<Tour[]>([]);
@@ -13,7 +13,7 @@ const Home: React.FC = () => {
     const [tourValue, setTourValue] = useState<Tour | null>(null);
     const [locationValue, setLocationValue] = useState<LocationDetail | null>(null);
     const [eventValue, setEventValue] = useState<EventItem | null>(null);
-    const [expanded, setExpanded] = useState<string | false>('tourpanel');
+    const [expanded, setExpanded] = useState<string | false>("tourpanel");
     const [sideGamesRows, setSideGamesRows] = useState<SideGames[]>([]);
     const [net, setNet] = useState<string | null>(null);
     const [division, setDivision] = useState<string | null>(null);
@@ -25,10 +25,10 @@ const Home: React.FC = () => {
         const fetchData = async () => {
             try {
                 const [toursResponse, locationsResponse, eventsResponse, sideGamesResponse] = await Promise.all([
-                    fetch('/data/tours.json'),
-                    fetch('/data/locations.json'),
-                    fetch('/data/events.json'),
-                    fetch('/data/sidegames.json')
+                    fetch("/data/tours.json"),
+                    fetch("/data/locations.json"),
+                    fetch("/data/events.json"),
+                    fetch("/data/sidegames.json")
                 ]);
 
                 const toursData: Tour[] = await toursResponse.json();
@@ -41,7 +41,7 @@ const Home: React.FC = () => {
                 setEvents(eventsData);
                 setSideGamesRows(sideGamesData);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error("Error fetching data:", error);
             }
         };
 
@@ -71,7 +71,7 @@ const Home: React.FC = () => {
     const handleSelectEvent = (event: EventItem | null) => {
         setSelectedEvent(event);
         setEventValue(event);
-        setExpanded('eventsummarypanel');
+        setExpanded("eventsummarypanel");
     };
 
     const handleExpanded = (panel: string | false) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -81,7 +81,7 @@ const Home: React.FC = () => {
     const updateSideGamesData = (newNet: string | null, newDivision: string | null, newSuperSkins: boolean) => {
         const updatedRows = sideGamesRows.map(row => ({
             ...row,
-            selected: (row.key === newNet) || (row.key === newDivision) || (row.key === 'Super Skins' && newSuperSkins)
+            selected: (row.key === newNet) || (row.key === newDivision) || (row.key === "Super Skins" && newSuperSkins)
         }));
 
         const updatedTotalCost = updatedRows.reduce((acc: number, row: SideGames) => {
@@ -152,7 +152,7 @@ const Home: React.FC = () => {
                         rows: sideGamesRows.map(row => ({
                             name: row.name,
                             cost: row.value,
-                            selected: (row.key === 'SuperSkins' && superSkins) || (row.key === net || row.key === division),
+                            selected: (row.key === "SuperSkins" && superSkins) || (row.key === net || row.key === division),
                         })),
                         totalCost,
                     };

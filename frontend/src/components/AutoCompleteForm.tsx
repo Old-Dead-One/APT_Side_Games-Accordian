@@ -1,12 +1,12 @@
-import React from 'react';
-import TourAutoComplete from './TourAutoComplete';
-import LocationAutoComplete from './LocationAutoComplete';
-import EventAutoComplete from './EventAutoComplete';
-import EventSummary from './EventSummary';
-import SelectSideGames from './SelectSideGames';
-import { Tour, LocationDetail, EventItem, SideGames } from './Types';
-import { Accordion, AccordionSummary, AccordionDetails, Box, Typography } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React from "react";
+import TourAutoComplete from "./TourAutoComplete";
+import LocationAutoComplete from "./LocationAutoComplete";
+import EventAutoComplete from "./EventAutoComplete";
+import EventSummary from "./EventSummary";
+import SelectSideGames from "./SelectSideGames";
+import { Tour, LocationDetail, EventItem, SideGames } from "./Types";
+import { Accordion, AccordionSummary, AccordionDetails, Box, Typography } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface AutoCompleteFormProps {
     tours: Tour[];
@@ -67,11 +67,9 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
     return (
         <>
             <Accordion
-                expanded={expanded === 'tourpanel'}
-                onChange={onAccordionChange('tourpanel')}
+                expanded={expanded === "tourpanel"}
+                onChange={onAccordionChange("tourpanel")}
                 elevation={0}
-                variant='outlined'
-                sx={{ paddingTop: .5, paddingBottom: .5, }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -81,14 +79,14 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
                     <Typography>Find an Event</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Box marginBottom={1.5}>
+                    <Box marginBottom={1}>
                         <TourAutoComplete
                             tours={tours}
                             value={tourValue}
                             onSelect={onSelectTour}
                         />
                     </Box>
-                    <Box marginBottom={1.5}>
+                    <Box marginBottom={1}>
                         <LocationAutoComplete
                             locations={locations}
                             tour_id={selectedTourId}
@@ -106,11 +104,11 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
                 </AccordionDetails>
             </Accordion>
             <Accordion
-                expanded={expanded === 'eventsummarypanel'}
-                onChange={onAccordionChange('eventsummarypanel')}
+                expanded={expanded === "eventsummarypanel"}
+                onChange={onAccordionChange("eventsummarypanel")}
                 elevation={0}
-                variant='outlined'
-                sx={{ paddingTop: .5, paddingBottom: .5, }}
+            // variant="outlined"
+            // sx={{ paddingTop: .5, paddingBottom: .5, }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -126,14 +124,11 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
                         selectedEvent={selectedEvent}
                     />
                     <SelectSideGames
-                        selectedEvent={selectedEvent}
                         rows={sideGamesRows}
                         net={net}
                         division={division}
                         superSkins={superSkins}
                         totalCost={totalCost}
-                        tourLabel={selectedTourLabel}
-                        locationLabel={selectedLocationLabel}
                         onNetChange={onNetChange}
                         onDivisionChange={onDivisionChange}
                         onSuperSkinsChange={onSuperSkinsChange}

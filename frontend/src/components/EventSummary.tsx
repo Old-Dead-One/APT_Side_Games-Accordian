@@ -1,6 +1,6 @@
-import React from 'react';
-import { EventItem } from './Types';
-import { Accordion, TextField, List, Box, ListItem } from '@mui/material';
+import React from "react";
+import { EventItem } from "./Types";
+import { Accordion, TextField, List, Box, ListItem } from "@mui/material";
 
 interface EventSummaryProps {
     selectedEvent: EventItem | null;
@@ -16,7 +16,7 @@ const EventSummary: React.FC<EventSummaryProps> = ({ selectedEvent, tourLabel, l
                     label="No event selected"
                     disabled
                     fullWidth
-                    variant='outlined'
+                    variant="outlined"
                 />
             </Accordion>
         );

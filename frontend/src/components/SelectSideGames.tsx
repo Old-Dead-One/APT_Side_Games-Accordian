@@ -1,7 +1,7 @@
-import React from 'react';
-import { SideGames } from './Types';
-import SideGamesTable from './SideGamesTable';
-import { Box } from '@mui/material';
+import React from "react";
+import { SideGames } from "./Types";
+import SideGamesTable from "./SideGamesTable";
+import { Box } from "@mui/material";
 
 interface SelectSideGamesProps {
     rows: SideGames[];

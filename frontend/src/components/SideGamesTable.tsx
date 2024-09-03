@@ -1,6 +1,6 @@
-import React from 'react';
-import { Checkbox, Typography, Button, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControlLabel } from '@mui/material';
-import useTheme from '@mui/material/styles/useTheme';
+import React from "react";
+import { Checkbox, Typography, Button, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormControlLabel } from "@mui/material";
+import useTheme from "@mui/material/styles/useTheme";
 
 interface SideGamesTableProps {
     rows: Array<{ name: string; key: string; value: number; selected: boolean }>;
@@ -27,7 +27,7 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
     const theme = useTheme();
 
     const totalCost = rows.reduce((acc: number, row) => {
-        if (row.key === 'Super Skins' && superSkins) {
+        if (row.key === "Super Skins" && superSkins) {
             return acc + row.value;
         } else if (row.key === net || row.key === division) {
             return acc + row.value;
@@ -38,9 +38,9 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
 
-        if (value === 'Super Skins') {
+        if (value === "Super Skins") {
             onSuperSkinsChange(event);
-        } else if (value.startsWith('D')) {
+        } else if (value.startsWith("D")) {
             onDivisionChange(event);
         } else {
             onNetChange(event);
@@ -48,11 +48,11 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
     };
 
     const getLabelColor = (key: string) => {
-        if (key === 'Super Skins') {
+        if (key === "Super Skins") {
             return superSkins ? theme.palette.primary.main : theme.palette.text.disabled;
         } else if (key === net || key === division) {
             return theme.palette.primary.main;
-        } else if (key === 'Total') {
+        } else if (key === "Total") {
             return totalCost > 0 ? theme.palette.primary.main : theme.palette.text.disabled;
         } else {
             return theme.palette.text.disabled;
@@ -61,24 +61,24 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
 
     return (
         <TableContainer component={Paper}>
-            <Typography align="center" variant='h6'>
+            <Typography align="center" variant="h6">
                 <strong>Available Side Games</strong>
             </Typography>
             <Table sx={{ minWidth: 320 }} size="small" aria-label="side games table">
                 <TableHead>
                     <TableRow>
                         <TableCell>
-                            <Typography variant='subtitle1'>
+                            <Typography variant="subtitle1">
                                 <strong>Select</strong>
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant='subtitle1'>
+                            <Typography variant="subtitle1">
                                 <strong>Games</strong>
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography align='right' variant='subtitle1'>
+                            <Typography align="right" variant="subtitle1">
                                 <strong>Cost</strong>
                             </Typography>
                         </TableCell>
@@ -92,7 +92,7 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
                                     control={
                                         <Checkbox
                                             size="small"
-                                            checked={row.key === 'Super Skins' ? superSkins : (row.key === net || row.key === division)}
+                                            checked={row.key === "Super Skins" ? superSkins : (row.key === net || row.key === division)}
                                             onChange={handleCheckboxChange}
                                             value={row.key}
                                             sx={{ color: getLabelColor(row.key), padding: 0 }}
@@ -116,7 +116,7 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
                     <TableRow>
                         <TableCell component="th" scope="row"><strong>Total</strong></TableCell>
                         <TableCell colSpan={2} align="right">
-                            <Typography sx={{ color: getLabelColor('Total') }}>
+                            <Typography sx={{ color: getLabelColor("Total") }}>
                                 ${totalCost.toFixed(2)}
                             </Typography>
                         </TableCell>
