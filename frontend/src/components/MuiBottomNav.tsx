@@ -1,11 +1,14 @@
 import { NavLink } from "react-router-dom";
-import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import { BottomNavigation, BottomNavigationAction, Paper, Badge } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useCart } from "./CartContext";
 
 const BottomNavBar = () => {
+    const { cartItemsCount } = useCart();
+
     return (
         <Paper
             sx={{
@@ -57,7 +60,11 @@ const BottomNavBar = () => {
                 <BottomNavigationAction
                     showLabel
                     label="Cart"
-                    icon={<ShoppingCartIcon />}
+                    icon={
+                        <Badge badgeContent={cartItemsCount} color="error">
+                            <ShoppingCartIcon />
+                        </Badge>
+                    }
                     sx={{ color: "#dcddde", maxWidth: "80px" }}
                     component={NavLink} to="/cart"
                 />

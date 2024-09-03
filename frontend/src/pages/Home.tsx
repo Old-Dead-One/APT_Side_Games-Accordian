@@ -21,6 +21,7 @@ const Home: React.FC = () => {
     const [superSkins, setSuperSkins] = useState<boolean>(false);
     const [totalCost, setTotalCost] = useState<number>(0);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const { addToCart, isEventInCart } = useCart();
 
@@ -58,11 +59,17 @@ const Home: React.FC = () => {
     const handleSelectTour = (tourId: number | null, selectedTour: Tour | null) => {
         setSelectedTourId(tourId);
         setTourValue(selectedTour);
+        setSelectedLocationId(null);
+        setLocationValue(null);
+        setSelectedEvent(null);
+        setEventValue(null);
     };
 
     const handleSelectLocation = (location: LocationDetail | null) => {
         setSelectedLocationId(location ? location.location_id : null);
         setLocationValue(location);
+        setSelectedEvent(null);
+        setEventValue(null);
     };
 
     const handleSelectEvent = (event: EventItem | null) => {
@@ -122,6 +129,7 @@ const Home: React.FC = () => {
         }
 
         setErrorMessage(null);
+        setSuccessMessage("Event added to cart");
 
         const eventSummary = {
             selectedEvent,
@@ -142,11 +150,16 @@ const Home: React.FC = () => {
         };
 
         addToCart(eventSummary, sideGamesData);
+
+        setTimeout(() => {
+            setSuccessMessage(null);
+        }, 3000);
     };
 
     return (
         <>
             {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+            {successMessage && <Alert severity="success">{successMessage}</Alert>}
             <AutoCompleteForm
                 tours={tours}
                 locations={filteredLocationDetails}
