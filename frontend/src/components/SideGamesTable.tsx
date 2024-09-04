@@ -129,7 +129,7 @@ const SideGamesTable: React.FC<SideGamesTableProps> = ({
                     </TableRow>
                     <TableRow>
                         <TableCell colSpan={3}>
-                            <Stack direction="row" justifyContent="end">
+                            <Stack direction="row" justifyContent="center">
                                 <Button variant="contained" color="secondary" startIcon={<AddShoppingCartIcon />} onClick={onAddToCart}>
                                     Add to Cart
                                 </Button>

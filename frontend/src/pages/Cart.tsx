@@ -9,8 +9,10 @@ const Cart: React.FC = () => {
     const { cartItems, removeFromCart } = useCart();
 
     return (
-        <Box>
-            <Typography variant="h6">Cart</Typography>
+        <Box sx={{ minWidth: 320 }}>
+            <Typography align="center" variant="h6" minWidth={320}>
+                <strong>Cart</strong>
+            </Typography>
             {cartItems.length === 0 && <Typography variant="caption">Your cart is empty</Typography>}
             <List>
                 {cartItems.map((item, key) => (
@@ -19,6 +21,7 @@ const Cart: React.FC = () => {
                             direction="column"
                             justifyContent="space-between"
                             alignItems="center"
+                            minWidth={320}
                         >
                             <Box
                                 sx={{
@@ -27,9 +30,9 @@ const Cart: React.FC = () => {
                                     borderRadius: "10px",
                                     boxSizing: "border-box",
                                     width: "auto",
-                                    minWidth: "320px",
                                     height: "auto",
                                     paddingLeft: 2,
+                                    paddingRight: 2,
                                     overflow: "auto",
                                 }}>
                                 <List>

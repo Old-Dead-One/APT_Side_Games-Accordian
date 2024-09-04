@@ -107,8 +107,6 @@ const AutoCompleteForm: React.FC<AutoCompleteFormProps> = ({
                 expanded={expanded === "eventsummarypanel"}
                 onChange={onAccordionChange("eventsummarypanel")}
                 elevation={0}
-            // variant="outlined"
-            // sx={{ paddingTop: .5, paddingBottom: .5, }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
