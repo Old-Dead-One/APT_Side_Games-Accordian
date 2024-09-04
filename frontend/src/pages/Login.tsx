@@ -12,7 +12,8 @@ const LoginPage = () => {
     const handleLogin = () => {
         // Simulate login validation. Replace this with real authentication logic.
         if (email === "test@example.com" && password === "password") {
-            navigate("/home"); // Redirect to profile or home after successful login
+            setErrorMessage(null);
+            navigate("/");
         } else {
             setErrorMessage("Invalid email or password");
         }
