@@ -1,6 +1,6 @@
 import { useLocation, NavLink } from "react-router-dom";
 import { AppBar, Toolbar, Typography, IconButton, Box, Button } from "@mui/material";
-import { useTheme } from "./MuiThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 

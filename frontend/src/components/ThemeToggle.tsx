@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useTheme } from "./MuiThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 const ThemeToggle = () => {

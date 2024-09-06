@@ -1,80 +1,120 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { TableContainer, Table, TableBody, TableRow, TableCell, TextField, Button, Typography, Paper, Alert, Stack, } from "@mui/material";
-import LoginIcon from "@mui/icons-material/Login";
+import React, { useState } from "react";
+import { Box, Typography, Button, TextField, Stack, List, ListItem } from "@mui/material";
+import { useUser } from "../context/UserContext";
+import Login from "@mui/icons-material/Login";
 
-const LoginPage = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const navigate = useNavigate();
+const LoginPage: React.FC = () => {
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+    const [isSignUp, setIsSignUp] = useState<boolean>(false);
+
+    const { user, login, logout, isLoggedIn } = useUser();
 
     const handleLogin = () => {
-        // Simulate login validation. Replace this with real authentication logic.
-        if (email === "test@example.com" && password === "password") {
-            setErrorMessage(null);
-            navigate("/");
-        } else {
-            setErrorMessage("Invalid email or password");
-        }
+        login(email, password);
+    };
+
+    const getUsername = () => {
+        return user?.user_metadata?.username || user?.email;
     };
 
     return (
-        <TableContainer component={Paper} sx={{ maxWidth: 400 }}>
-            <Typography align="center" variant="h6">
-                <strong>Login</strong>
+        <Box component={"form"} sx={{ minWidth: 320 }}>
+            <Typography variant="h6" align="center" margin={1}>
+                <strong>{isLoggedIn ? `Welcome, ${getUsername()}` : isSignUp ? "Sign Up" : "Sign In"}</strong>
             </Typography>
-            {errorMessage && (
-                <Alert severity="error">{errorMessage}</Alert>
-            )}
-            <Table sx={{ minWidth: 320 }} size="small" aria-label="login table">
-                <TableBody>
-                    <TableRow >
-                        <TableCell component="th" scope="row" sx={{ border: 0 }}>
-                            <TextField
-                                label="Email"
-                                variant="outlined"
-                                fullWidth
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                type="email"
-                                sx={{ minWidth: 320 }}
-                            />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row" sx={{ border: 0 }}>
-                            <TextField
-                                label="Password"
-                                variant="outlined"
-                                fullWidth
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                type="password"
-                                sx={{ minWidth: 320 }}
-                            />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row" sx={{ border: 0 }}>
-                            <Stack direction="row" justifyContent="center">
-                                <Button
-                                    startIcon={<LoginIcon />}
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={handleLogin}
+
+            {!isLoggedIn ? (
+                <List>
+                    <ListItem>
+                        <Stack
+                            direction="column"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            minWidth={320}
+                        >
+                            <Box
+                                sx={{
+                                    flex: 1,
+                                    border: "1px solid",
+                                    borderRadius: "10px",
+                                    boxSizing: "border-box",
+                                    width: "auto",
+                                    height: "auto",
+                                    overflow: "auto",
+                                }}>
+                                <List>
+                                    <ListItem>
+                                        <TextField
+                                            fullWidth
+                                            required
+                                            label="Email"
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                    </ListItem>
+                                    <ListItem>
+                                        <TextField
+                                            fullWidth
+                                            required
+                                            label="Password"
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                    </ListItem>
+                                    <ListItem>
+                                        {isSignUp && (
+                                            <TextField
+                                                fullWidth
+                                                label="Username"
+                                                value={username}
+                                                onChange={(e) => setUsername(e.target.value)} />
+                                        )}
+                                    </ListItem>
+                                </List>
+                                <Stack
+                                    direction="column"
+                                    justifyContent="space-between"
+                                    alignItems="center"
                                 >
-                                    Login
-                                </Button>
-                            </Stack>
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
-            <Typography variant="body2" align="center">
-                Don’t have an account? <a href="/signup">Sign up</a>
-            </Typography>
-        </TableContainer>
+                                    <Button
+                                        variant="text"
+                                        color="secondary"
+                                        onClick={() => setIsSignUp(!isSignUp)}
+                                    >
+                                        {isSignUp
+                                            ? "Already have an account? Sign In"
+                                            : "Don't have an account? Sign Up"}
+                                    </Button>
+                                    <Typography variant="caption" color={"red"}>* Indicates a Required Field</Typography>
+                                </Stack>
+                            </Box>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                startIcon={<Login />}
+                                onClick={handleLogin}
+                                sx={{ marginTop: 2 }}
+                            >
+                                {isSignUp ? "Sign Up" : "Login"}
+                            </Button>
+                        </Stack>
+                    </ListItem>
+                </List>
+            ) : (
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    sx={{ marginBottom: 2 }}
+                    onClick={logout}
+                >
+                    Logout
+                </Button>
+            )}
+        </Box>
     );
 };
 

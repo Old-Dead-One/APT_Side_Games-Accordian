@@ -1,16 +1,66 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, List, ListItem, Stack, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
-import { useCart } from "../components/CartContext";
-
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import { useUser } from "../context/UserContext"; // Updated import
+import { supabase } from "../services/supabaseClient";
 
 const Cart: React.FC = () => {
-    const { cartItems, removeFromCart } = useCart();
+    const { cartItems, removeFromCart, setCartItems } = useUser();
+
+    useEffect(() => {
+        const fetchUserCart = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                const userId = session.user.id;
+
+                // Fetch the cart from the database for this user
+                const { data: userCart, error } = await supabase
+                    .from('shopping_carts')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .single();
+
+                if (error) {
+                    console.error("Error fetching user cart:", error);
+                } else {
+                    if (userCart?.items) {
+                        setCartItems(userCart.items);
+                    }
+                }
+            }
+        };
+
+        fetchUserCart();
+    }, [setCartItems]);
+
+    useEffect(() => {
+        const saveCart = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                const userId = session.user.id;
+
+                const { error } = await supabase
+                    .from('shopping_carts')
+                    .upsert({
+                        user_id: userId,
+                        items: cartItems
+                    });
+
+                if (error) {
+                    console.error("Error saving cart:", error);
+                }
+            }
+        };
+
+        if (cartItems.length > 0) {
+            saveCart();
+        }
+    }, [cartItems]);
 
     return (
         <Box sx={{ minWidth: 320 }}>
-            <Typography align="center" variant="h6" minWidth={320}>
+            <Typography variant="h6" align="center">
                 <strong>Cart</strong>
             </Typography>
             {cartItems.length === 0 && <Typography variant="caption">Your cart is empty</Typography>}
@@ -22,6 +72,7 @@ const Cart: React.FC = () => {
                             justifyContent="space-between"
                             alignItems="center"
                             minWidth={320}
+                            spacing={2}
                         >
                             <Box
                                 sx={{
@@ -49,21 +100,23 @@ const Cart: React.FC = () => {
                                     <ListItem disableGutters disablePadding><strong>Division Skins:&nbsp;</strong> {item.sideGamesData.division}</ListItem>
                                     <ListItem sx={{ fontSize: 20, color: "red" }} disableGutters disablePadding><strong>Total Cost: ${item.sideGamesData.totalCost}</strong></ListItem>
                                 </List>
-                                <Button variant="outlined" color="secondary" sx={{ marginBottom: 1 }} startIcon={<DeleteIcon />}
-                                    onClick={() => {
-                                        if (removeFromCart) {
-                                            removeFromCart(key);
-                                        }
-                                    }}
-                                >
-                                    Delete
-                                </Button>
+                                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                    <Button variant="outlined" color="secondary" sx={{ marginBottom: 1 }} startIcon={<DeleteIcon />}
+                                        onClick={() => removeFromCart(key)}
+                                    >
+                                        Delete
+                                    </Button>
+                                </Box>
                             </Box>
                         </Stack>
                     </ListItem>
                 ))}
             </List>
-            <Button variant="contained" color="secondary" startIcon={<ShoppingCartCheckoutIcon />} onClick={() => { console.log("Checkout clicked") }}>Checkout</Button>
+            <Button variant="contained" color="secondary" sx={{ marginBottom: 2 }} startIcon={<ShoppingCartCheckoutIcon />}
+                onClick={() => alert('Checkout functionality not implemented yet.')}
+            >
+                Checkout
+            </Button>
         </Box>
     );
 };

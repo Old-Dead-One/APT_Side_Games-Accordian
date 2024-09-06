@@ -3,11 +3,14 @@ import { BottomNavigation, BottomNavigationAction, Paper, Badge } from "@mui/mat
 import HomeIcon from "@mui/icons-material/Home";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useCart } from "./CartContext";
+import { useCart } from "../context/CartContext";
+import { useUser } from "../context/UserContext";
 
 const BottomNavBar = () => {
     const { cartItemsCount } = useCart();
+    const { isLoggedIn } = useUser();
 
     return (
         <Paper
@@ -52,8 +55,8 @@ const BottomNavBar = () => {
                 />
                 <BottomNavigationAction
                     showLabel
-                    label="Login"
-                    icon={<LoginIcon />}
+                    label={isLoggedIn ? "Logout" : "Login"}
+                    icon={isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
                     sx={{ color: "#dcddde", maxWidth: "80px" }}
                     component={NavLink} to="/login"
                 />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCart } from "../components/CartContext";
+import { useCart } from "../context/CartContext";
 import AutoCompleteForm from "../components/AutoCompleteForm";
 import { Tour, Location, LocationDetail, EventItem, SideGames } from "../components/Types";
 import { Alert } from "@mui/material";
@@ -125,6 +125,11 @@ const Home: React.FC = () => {
 
         if (isEventInCart && isEventInCart(selectedEvent.event_id)) {
             setErrorMessage("Event is already in cart");
+            return;
+        }
+
+        if (!net && !division && !superSkins) {
+            setErrorMessage("Please select a side game");
             return;
         }
 

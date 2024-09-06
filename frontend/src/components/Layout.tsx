@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import BottomNavBar from "./MuiBottomNav";
-import TopNavBar from "./MuiTopNav";
+import BottomNavBar from "./BottomNav";
+import TopNavBar from "./TopNav";
 import useTheme from "@mui/material/styles/useTheme";
 
 const MuiLayout = ({ children }: { children: React.ReactNode }) => {
