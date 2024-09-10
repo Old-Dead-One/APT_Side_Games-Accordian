@@ -26,6 +26,8 @@ const Cart: React.FC = () => {
                 } else {
                     if (userCart?.items) {
                         setCartItems(userCart.items);
+                    } else {
+                        setCartItems([] as any);
                     }
                 }
             }

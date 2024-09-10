@@ -11,6 +11,7 @@ interface UserContextType {
     removeFromCart: (index: number) => void;
     isEventInCart: (event_id: number) => boolean;
     cartItemsCount: number;
+    setCartItems: React.Dispatch<React.SetStateAction<{ eventSummary: any; sideGamesData: any }[]>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -50,6 +51,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
             console.error("Login failed", error.message);
+            alert("Login failed from UserContext");
         } else if (data.user) {
             setUser(data.user);
             setIsLoggedIn(true);
@@ -92,6 +94,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             removeFromCart,
             isEventInCart,
             cartItemsCount,
+            setCartItems
         }}>
             {children}
         </UserContext.Provider>

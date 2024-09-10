@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCart } from "../context/CartContext";
+import { useUser } from "../context/UserContext";
 import AutoCompleteForm from "../components/AutoCompleteForm";
 import { Tour, Location, LocationDetail, EventItem, SideGames } from "../components/Types";
 import { Alert } from "@mui/material";
@@ -23,7 +23,7 @@ const Home: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    const { addToCart, isEventInCart } = useCart();
+    const { addToCart, isEventInCart } = useUser();
 
     useEffect(() => {
         const fetchData = async () => {

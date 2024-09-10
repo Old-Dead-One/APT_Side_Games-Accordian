@@ -11,8 +11,8 @@ const LoginPage: React.FC = () => {
 
     const { user, login, logout, isLoggedIn } = useUser();
 
-    const handleLogin = () => {
-        login(email, password);
+    const handleLogin = async () => {
+        login(email, password); // login from UserContext
     };
 
     const getUsername = () => {
@@ -53,6 +53,7 @@ const LoginPage: React.FC = () => {
                                             type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
+                                            autoComplete="email"
                                         />
                                     </ListItem>
                                     <ListItem>
@@ -63,6 +64,7 @@ const LoginPage: React.FC = () => {
                                             type="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
+                                            autoComplete="current-password"
                                         />
                                     </ListItem>
                                     <ListItem>
