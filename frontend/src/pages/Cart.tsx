@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Box, Typography, List, ListItem, Stack, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import { useUser } from "../context/UserContext"; // Updated import
+import { useUser } from "../context/UserContext";
 import { supabase } from "../services/supabaseClient";
 
 const Cart: React.FC = () => {
@@ -14,7 +14,6 @@ const Cart: React.FC = () => {
             if (session) {
                 const userId = session.user.id;
 
-                // Fetch the cart from the database for this user
                 const { data: userCart, error } = await supabase
                     .from('shopping_carts')
                     .select('*')
