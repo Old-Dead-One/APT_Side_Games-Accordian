@@ -4,6 +4,7 @@ import { supabase } from "../services/supabaseClient";
 interface UserContextType {
     user: any;
     login: (email: string, password: string) => void;
+    signUp: (email: string, password: string, displayName: string) => void;
     logout: () => void;
     isLoggedIn: boolean;
     cartItems: { eventSummary: any; sideGamesData: any }[];
@@ -12,6 +13,9 @@ interface UserContextType {
     isEventInCart: (event_id: number) => boolean;
     cartItemsCount: number;
     setCartItems: React.Dispatch<React.SetStateAction<{ eventSummary: any; sideGamesData: any }[]>>;
+    updateUserEmail: (newEmail: string) => Promise<void>;
+    updateUserPhone: (newPhone: string) => Promise<void>;
+    updateUserdisplayName: (newDisplayName: string) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -32,6 +36,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return savedCartItems ? JSON.parse(savedCartItems) : [];
     });
 
+    // Fetch session on mount
     useEffect(() => {
         const fetchSession = async () => {
             const { data: { session } } = await supabase.auth.getSession();
@@ -43,21 +48,45 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         fetchSession();
     }, []);
 
+    // Sync cart items with localStorage
     useEffect(() => {
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }, [cartItems]);
 
+    // SignUp function
+    const signUp = async (email: string, password: string, displayName: string) => {
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: { displayName },  // Save additional user data like displayName
+            }
+        });
+        if (error) {
+            console.error("Sign Up failed", error.message);
+            alert(`Sign Up failed: ${error.message}`);
+        } else if (data.user) {
+            setUser(data.user);
+            setIsLoggedIn(true);
+            setCartItems([]);
+            alert("Sign Up successful");
+        }
+    };
+
+    // Login function
     const login = async (email: string, password: string) => {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
             console.error("Login failed", error.message);
-            alert("Login failed from UserContext");
+            alert(`Login failed: ${error.message}`);
         } else if (data.user) {
             setUser(data.user);
             setIsLoggedIn(true);
+            setCartItems([]);
         }
     };
 
+    // Logout function
     const logout = async () => {
         const { error } = await supabase.auth.signOut();
         if (error) {
@@ -65,10 +94,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } else {
             setUser(null);
             setIsLoggedIn(false);
-            setCartItems([]); // Clear cart on logout
+            setCartItems([]);
         }
     };
 
+    // Cart management
     const addToCart = (eventSummary: any, sideGamesData: any) => {
         setCartItems(prevItems => [...prevItems, { eventSummary, sideGamesData }]);
     };
@@ -83,10 +113,46 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const cartItemsCount = cartItems.length;
 
+    // Update email
+    const updateUserEmail = async (newEmail: string) => {
+        const { data, error } = await supabase.auth.updateUser({ email: newEmail });
+        if (error) {
+            console.error("Error updating email:", error.message);
+            alert(`Error updating email: ${error.message}`);
+        } else {
+            setUser(data.user);
+        }
+    };
+
+    // Update phone
+    const updateUserPhone = async (newPhone: string) => {
+        const { data, error } = await supabase.auth.updateUser({ phone: newPhone });
+        if (error) {
+            console.error("Error updating phone:", error.message);
+            alert(`Error updating phone: ${error.message}`);
+        } else {
+            setUser(data.user);
+        }
+    };
+
+    // Update display name
+    const updateUserdisplayName = async (newDisplayName: string) => {
+        const { data, error } = await supabase.auth.updateUser({ data: { username: newDisplayName } });
+        if (error) {
+            console.error("Error updating display name:", error.message);
+            alert(`Error updating display name: ${error.message}`);
+        } else {
+            setUser(data.user);
+        }
+    };
+
+    console.log("UserContext", { user, isLoggedIn, cartItems });
+
     return (
         <UserContext.Provider value={{
             user,
             login,
+            signUp,
             logout,
             isLoggedIn,
             cartItems,
@@ -94,7 +160,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             removeFromCart,
             isEventInCart,
             cartItemsCount,
-            setCartItems
+            setCartItems,
+            updateUserEmail,
+            updateUserPhone,
+            updateUserdisplayName,
         }}>
             {children}
         </UserContext.Provider>

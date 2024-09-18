@@ -56,30 +56,10 @@ export interface SideGame {
     selected: boolean;
 }
 
-// CartItem interface to represent cart item data
-export interface CartItem {
-    name: string;
-    cost: number;
-    selected: boolean;
-}
-
-// Cart interface to represent cart data
-export interface Cart {
-    [key: string]: CartItem;
-}
-
 // SideGames interface to represent side games data
 export interface SideGames {
     name: string;
     key: string;
     value: number;
     selected: boolean;
-}
-
-// SideGamesTableProps interface to represent side games table data
-export interface SideGamesTableProps {
-    event: EventItem | null;
-    sideGames: SideGame[];
-    onAddToCart: () => void;
-    onSelections: (event: EventItem | null, sideGames: SideGame[]) => void;
 }

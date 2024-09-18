@@ -96,9 +96,9 @@ const Cart: React.FC = () => {
                                     <ListItem disableGutters disablePadding><strong>Date:&nbsp;</strong> {new Date(item.eventSummary.selectedEvent.date).toLocaleDateString()}</ListItem>
 
                                     <ListItem sx={{ fontSize: 20, color: "green" }} disableGutters disablePadding><strong>Selected Side Games:&nbsp;</strong></ListItem>
-                                    <ListItem disableGutters disablePadding><strong>Net Game:&nbsp;</strong> {item.sideGamesData.net}</ListItem>
+                                    <ListItem disableGutters disablePadding><strong>Net Game:&nbsp;</strong> {item.sideGamesData.net || "Nane"}</ListItem>
                                     <ListItem disableGutters disablePadding><strong>Super Skins:&nbsp;</strong> {item.sideGamesData.superSkins ? "Yes" : "No"}</ListItem>
-                                    <ListItem disableGutters disablePadding><strong>Division Skins:&nbsp;</strong> {item.sideGamesData.division}</ListItem>
+                                    <ListItem disableGutters disablePadding><strong>Division Skins:&nbsp;</strong> {item.sideGamesData.division || "None"}</ListItem>
                                     <ListItem sx={{ fontSize: 20, color: "red" }} disableGutters disablePadding><strong>Total Cost: ${item.sideGamesData.totalCost}</strong></ListItem>
                                 </List>
                                 <Box sx={{ display: "flex", justifyContent: "center" }}>

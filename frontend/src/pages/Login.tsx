@@ -3,26 +3,40 @@ import { Box, Typography, Button, TextField, Stack, List, ListItem } from "@mui/
 import { useUser } from "../context/UserContext";
 import Login from "@mui/icons-material/Login";
 
-const LoginPage: React.FC = () => {
+const loginPage: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [username, setUsername] = useState<string>("");
+    const [displayName, setdisplayName] = useState<string>("");
     const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
-    const { user, login, logout, isLoggedIn } = useUser();
+    const { user, login, signUp, logout, isLoggedIn } = useUser();
 
-    const handleLogin = async () => {
-        login(email, password); // login from UserContext
+    const handleAuth = async () => {
+        try {
+            if (isSignUp) {
+                // Sign Up logic
+                if (!displayName) {
+                    alert("Please enter a displayName");
+                    return;
+                }
+                await signUp(email, password, displayName);
+            } else {
+                // Login logic
+                login(email, password);
+            }
+        } catch (error) {
+            alert(isSignUp ? "Sign Up failed" : "Login failed from LoginPage");
+        }
     };
 
-    const getUsername = () => {
-        return user?.user_metadata?.username || user?.email;
+    const getdisplayName = () => {
+        return user?.user_metadata?.displayName || user?.email;
     };
 
     return (
         <Box component={"form"} sx={{ minWidth: 320 }}>
             <Typography variant="h6" align="center" margin={1}>
-                <strong>{isLoggedIn ? `Welcome, ${getUsername()}` : isSignUp ? "Sign Up" : "Sign In"}</strong>
+                <strong>{isLoggedIn ? `Welcome, ${getdisplayName()}` : isSignUp ? "Sign Up" : "Sign In"}</strong>
             </Typography>
 
             {!isLoggedIn ? (
@@ -71,9 +85,12 @@ const LoginPage: React.FC = () => {
                                         {isSignUp && (
                                             <TextField
                                                 fullWidth
-                                                label="Username"
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)} />
+                                                required
+                                                label="displayName"
+                                                value={displayName}
+                                                onChange={(e) => setdisplayName(e.target.value)}
+                                                autoComplete="displayName"
+                                            />
                                         )}
                                     </ListItem>
                                 </List>
@@ -98,7 +115,7 @@ const LoginPage: React.FC = () => {
                                 variant="contained"
                                 color="secondary"
                                 startIcon={<Login />}
-                                onClick={handleLogin}
+                                onClick={handleAuth}
                                 sx={{ marginTop: 2 }}
                             >
                                 {isSignUp ? "Sign Up" : "Login"}
@@ -120,4 +137,4 @@ const LoginPage: React.FC = () => {
     );
 };
 
-export default LoginPage;
+export default loginPage;
